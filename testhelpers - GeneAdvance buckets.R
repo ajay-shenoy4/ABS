@@ -67,11 +67,11 @@ scapi_setup <- function() {
   
   starburst <- DBI::dbConnect(
     drv = RJDBC::JDBC(
-      "io.trino.jdbc.TrinoDriver",
-      "/data/apps/trino/jdbc/starburst",
+      "TrinoDriver",
+      "starburst",
       "`"
     ),
-    url = "jdbc:trino://starburst.genusplc.com:443",
+    url = "starburst.genusplc.com",
     user = cfg$user,
     password = cfg$password,
     SSL = 'true'
