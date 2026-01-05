@@ -1,5 +1,42 @@
-ui - GMS.R and server - GMS.R: This Shiny application connects to a SQL Server database using credentials from a YAML configuration file, retrieves cattle pedigree and reproduction data based on a user-provided GENEadvance number, and processes it to generate a detailed dataset of animals. It fetches multiple tables (cows, maternal grandsires, great-grand sires, calf forecasts, and reproduction records), merges them, calculates derived fields like age in months and days carrying calf, and assigns reproductive status based on rules. Users can toggle between viewing the full dataset or a simplified GMS lineage view in a dynamic DataTable, and they can also download the resulting dataset as a CSV.
+ABS Global: Dairy Herd Genetics & Genomic Auditing
+Project Overview
+This repository contains a suite of advanced R-based tools designed for the dairy industry. These applications automate the retrieval of pedigree data, calculate genomic performance scores, and perform large-scale audits (CDCB, CI, AHDB) to optimize herd genetics and reproductive efficiency.
 
-GeneAdvance Buckets: This R code is a highly technical, end-to-end pipeline for dairy herd data management, scoring, and visualization. It demonstrates advanced skills in database integration (connecting to multiple SQL and Starburst databases via `odbc` and `RJDBC`), data wrangling with `dplyr` and `purrr`, and dynamic data cleaning and alignment of multiple CSV datasets. Herds are scored across production, fitness, and conformation traits, assigned to custom buckets using rule-based and distance-to-bounding-box logic, and anomalies are identified. The code also showcases advanced visualization techniques with `ggplot2`, including faceted temporal trend plots, stacked bar charts, and trait range visualizations, providing clear, publication-quality insights into herd performance across countries and over time. It emphasizes automation, reproducibility, and scalable data processing for complex multi-source datasets.
+Core Applications
+1. GMS Pedigree Navigator (ui-GMS.R & server-GMS.R)
+A dynamic R Shiny application that serves as a portal into cattle lineage and reproductive health.
 
-CDCB, CI, AHDB Audits: This R code defines a comprehensive pipeline for conducting genomic and phenotypic audits of dairy herds for a given customer. It connects to multiple databases to retrieve herd, parent, and sire data, cleans and aligns it, calculates genomic indicators, and merges relevant trait information. The pipeline then generates a wide range of visualizations and summary tables—including production, fertility, longevity, body composition, and udder health metrics—tailored to breed and customer specifications. Finally, it outputs the processed data, plots, and zipped audit folders, providing a fully automated, reproducible, and technically robust reporting framework for herd performance analysis.
+Data Integration: Connects to SQL Server via YAML-encrypted credentials.
+
+Processing Engine: Merges multiple relational tables (Cows, Grandsires, Calf Forecasts) to calculate derived fields like Age in Months and Days Carrying Calf.
+
+Features: Rule-based reproductive status assignment, lineage view toggles, and automated CSV exporting.
+
+2. GeneAdvance Buckets (Herd Scoring Pipeline)
+A highly technical pipeline for dairy herd categorization based on production and conformation traits.
+
+Advanced Wrangling: Utilizes dplyr and purrr for functional programming across multi-source datasets (SQL & Starburst via RJDBC).
+
+Scoring Logic: Implements distance-to-bounding-box logic to assign animals to custom genetic "buckets."
+
+Visual Analytics: Generates publication-quality ggplot2 visualizations, including faceted temporal trends and trait range distributions.
+
+3. Multi-Standard Genomic Audits (CDCB, CI, AHDB)
+An automated reporting framework for international genomic and phenotypic auditing.
+
+Audit Scope: Conducts audits for Council on Dairy Cattle Breeding (CDCB), CI, and AHDB standards.
+
+Metrics: Calculates indicators for production, fertility, longevity, body composition, and udder health.
+
+Output: Automatically generates zipped report folders containing processed datasets and custom summary tables tailored to specific breeds.
+
+🧬 Data Pipeline Architecture
+The scripts follow a rigorous ETL (Extract, Transform, Load) process to ensure data integrity across various global standards:
+
+Extraction: Secure connection to distributed databases (SQL Server, Starburst).
+
+Transformation: Alignment of disparate CSV data, genomic indicator calculation, and parentage verification.
+
+Visualization: Automated plot generation for udder health, fertility, and production trends.
+
+Reporting: Generation of reproducible audits for customer decision-making.
