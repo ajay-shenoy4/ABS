@@ -77,27 +77,54 @@ The pipeline integrates a dedicated suite of `ggplot2` plotting functions to tra
 
 ---
 ### 3. Multi-Standard Genomic Audits (CDCB, CI, AHDB)
-An automated reporting framework for international genomic and phenotypic auditing.
 
-Audit Scope: Conducts audits for Council on Dairy Cattle Breeding (CDCB), CI, and AHDB standards.
+![Audit Status](https://img.shields.io/badge/Audit_Pipeline-Active-success)
+![Language](https://img.shields.io/badge/Language-R-blue)
+![Database](https://img.shields.io/badge/Database-SQL_Server_/_Starburst-green)
+![Region](https://img.shields.io/badge/Region-EMEA_/_Global-orange)
 
-Metrics: Calculates indicators for production, fertility, longevity, body composition, and udder health.
+### Primary Focus: AHDB National Evaluation & Genomic Audits
+A high-performance pipeline aligned with **AHDB (UK)** national standards. This tool synchronizes farm-level milk recording data (MRO) with national genomic evaluations to analyze genetic merit and economic potential. The audit runs for Europe, the Middle East, and Africa (EMEA).
 
-Output: Automatically generates zipped report folders containing processed datasets and custom summary tables tailored to specific breeds.
+#### **Key Enhancements (EMEA Portfolio)**
+* **Expanded Trait Analysis:** Increased included traits from **26 to 46**, providing the most granular genetic view in the industry.
+* **Advanced Data Science:** Developed 10+ new visualizations including `geom_density` histograms, longitudinal scatterplots, and 305-day normalization models.
+* **Operational Support:** Generated specialized dataframes for sire info and parent averages to support global sales teams and analysts.
 
-## Data Pipeline Architecture
-The scripts follow a rigorous ETL (Extract, Transform, Load) process to ensure data integrity across various global standards:
+#### **Technical Workflow & Synthesis**
+* **Multi-Source Ingestion:** Integrates data from **CIS, NMR, and UDF**, alongside internal **GMS MasterPlan** records.
+* **Intelligent Data Merging:** Resolves animal identities via a dual-key matching engine (`HBNLink`) using National IDs and Herd Book Numbers.
+* **Recursive Trait Recovery:** Implements `AppendTraitDB` to reconstruct genetic profiles using a weighted ancestral formula
+* * **305-Day ME Normalization:** Standardizes diverse records into **305-Day Milk Equivalents** using biological scaling factors for fair comparison across lactation groups.
 
-Extraction: Secure connection to distributed databases (SQL Server, Starburst).
+#### **Visual Analytics & Benchmarking**
+* **Genetic Lag Visualization:** Compares herd-specific progress against the national UK industry benchmark.
+* **Birthdate Trend Analysis:** Faceted plots showing progress for **Production**, **Fitness**, and **EnviroCow** indices.
+* **Index Support:** Full support for the three major UK rankings: **PLI** (Profitable Lifetime Index), **SCI** (Spring Calving Index), and **ACI** (Autumn Calving Index).
+  
+### Multi-Standard Custom Index (CI) Audits
+A comprehensive automated pipeline enabling retrieval, cleaning, and reporting of herd performance against international standards across EMEA and Latin America (e.g., Italy, UK, Brazil).
 
-Transformation: Alignment of disparate CSV data, genomic indicator calculation, and parentage verification.
+* **Orchestration & Integration:** Resolves unique customer metadata through a dual-database lookup across EMEA and GeneAdvance production servers.
+* **Merging & State-Space Review:** Merges Parent Average (PA) phenotypic data with Genomic Testing (GT) results. It assigns a **Genomic Indicator (G or P)** to every animal, ensuring that failing genomic samples default to Parent Average indices to maintain data continuity.
+* **Technical Rigor:** Standardizes international date-of-birth formats and lactation counts using robust `switch` and `merge` logic.
+* **Visual Intelligence:** Uses `KappPlotting` to generate publication-ready audit packages, including matrix correlation plots and "stiching" functions that combine distribution graphs with numerical summary tables into a single image.
 
-Visualization: Automated plot generation for udder health, fertility, and production trends.
+### CDCB Genomic & Performance Audits
+An advanced analytical pipeline for conducting high-fidelity genomic audits based on **CDCB (North America)** standards. This tool automates pedigree validation and generates longitudinal genetic progress reports.
 
-Reporting: Generation of reproducible audits for customer decision-making.
+* **Proprietary HBN Conversion:** Features a specialized conversion engine to translate **Sexed-semen identifiers** to **Conventional HBNs** across Holstein and Jersey breeds, ensuring seamless trait-merging with national bull databases.
+* **Recursive Inheritance Logic:** Implements `CDCBAppendTrait` which falls back to secondary generation data (MGS/MGGS) if primary sire data is missing, ensuring zero data gaps in the genetic profile.
+* **Economic Value Tracking:** Includes a specialized **ROI Analysis (ROIPngs)** that factors in farm-specific **Beef-on-Dairy** percentages to calculate the financial impact of breeding decisions.
+* **SQL Integration:** Automatically manages the `CDCBAuditData` warehouse, clearing legacy snapshots and appending fresh audit results for PowerBI consumption.
+---
 
-Contact & Credits
+## Technical Requirements
+* **Environment:** R 4.x+
+* **Core Libraries:** `tidyverse`, `ggplot2`, `odbc`, `rJava`, `DBI`, `data.table`, `shiny`.
+* **Memory:** Requires high memory allocation for Java (`-Xmx8000m`) for large-scale genomic processing.
+* **Configuration:** Requires a `config.yml` in `~/.scapi/` for database credentials.
 
-ABS Global 
+---
+**Author:** Ajay Shenoy, as part of ABS Global  
 
-Ajay Shenoy 
