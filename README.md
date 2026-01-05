@@ -3,15 +3,32 @@
 This repository contains a suite of advanced R-based tools designed for the dairy industry. These applications automate the retrieval of pedigree data, calculate genomic performance scores, and perform large-scale audits (CDCB, CI, AHDB) to optimize herd genetics and reproductive efficiency.
 
 ## Core Applications
-### 1. GMS Pedigree Navigator (ui-GMS.R & server-GMS.R)
-A dynamic R Shiny application that serves as a portal into cattle lineage and reproductive health.
+### 1. GMS Pedigree Navigator (`ui-GMS.R` & `server-GMS.R`)
+A full-stack **R Shiny** dashboard and data-processing engine designed to reconstruct multi-generational cattle pedigrees and track real-time reproductive physiology.
 
-Data Integration: Connects to SQL Server via YAML-encrypted credentials.
+#### Technical Architecture
+* **Multi-Tier Data Integration:** * Connects to **MS SQL Server** using `odbc` and `DBI` protocols with secure `YAML` configuration management.
+    * Implements a modular SQL architecture to query `farm_account_lookup`, `animal_data`, `calf_forecast`, and `reproduction_data` asynchronously.
+* **Pedigree Reconstruction Engine:** * The system utilizes specialized join logic (`CowtoMgs` → `GetMggs` → `GetGreatGrandSires`) to recursively traverse the maternal line.
+    * Transforms flat relational data into a structured **Sire / Maternal Grand Sire (MGS) / Maternal Great Grand Sire (MGGS)** lineage view.
+* **Automated Reproductive State Machine:** * **Heuristic Status Assignment:** Implements complex `case_when` logic to dynamically assign reproductive states (`PREG`, `BRED`, `OPEN`, `DNB`, `FRSH`, `ABRT`) based on `ReproType` and `ResultedInPregnancy` flags.
+    * **Biological Computation:** Calculates derived fields including **Days Carrying Calf** (using `difftime` logic between Service and Due dates) and **Age in Months** via `lubridate` intervals.
 
-Processing Engine: Merges multiple relational tables (Cows, Grandsires, Calf Forecasts) to calculate derived fields like Age in Months and Days Carrying Calf.
+#### Data Flow & Lineage Logic
+The application flattens a 3-generation lineage into a single row-major format by joining `animal_data` onto itself via Dam IDs. This allows breeding advisors to evaluate three generations of genetic impact alongside current reproductive metrics simultaneously.
 
-Features: Rule-based reproductive status assignment, lineage view toggles, and automated CSV exporting.
+| Pedigree Level | Script Function | Logic & Data Source |
+| :--- | :--- | :--- |
+| **Generation 1** | `CowtoMgs` | Maps the Cow to her immediate Sire and Dam. |
+| **Generation 2** | `GetMggs` | Joins the Dam's ID to identify the Maternal Grand Sire. |
+| **Generation 3** | `GetGreatGrandSires` | Joins the Grand-Dam's ID to identify the Great Grand Sire. |
 
+#### User Interface Features
+* **Toggleable View System:** Users can shift between a comprehensive "Full Data" audit trail (40+ variables) and a condensed "GMS Lineage" view focused on genetic markers.
+* **Branded Dashboard:** Custom CSS-styled `shinydashboard` featuring a fixed-header sidebar, asynchronous `withProgress` loading indicators, and high-performance `DT` (DataTables) integration for large dataset exploration.
+* **Validated Exporting:** Integrated `downloadHandler` for generating cleaned CSV reports containing only the user’s currently selected filtered view.
+
+---
 ### 2. GeneAdvance Buckets (Herd Scoring Pipeline)
 A highly technical pipeline for dairy herd categorization based on production and conformation traits.
 
