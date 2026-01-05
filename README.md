@@ -95,7 +95,7 @@ A high-performance pipeline aligned with **AHDB (UK)** national standards. This 
 * **Multi-Source Ingestion:** Integrates data from **CIS, NMR, and UDF**, alongside internal **GMS MasterPlan** records.
 * **Intelligent Data Merging:** Resolves animal identities via a dual-key matching engine (`HBNLink`) using National IDs and Herd Book Numbers.
 * **Recursive Trait Recovery:** Implements `AppendTraitDB` to reconstruct genetic profiles using a weighted ancestral formula
-* * **305-Day ME Normalization:** Standardizes diverse records into **305-Day Milk Equivalents** using biological scaling factors for fair comparison across lactation groups.
+* **305-Day ME Normalization:** Standardizes diverse records into **305-Day Milk Equivalents** using biological scaling factors for fair comparison across lactation groups.
 
 #### **Visual Analytics & Benchmarking**
 * **Genetic Lag Visualization:** Compares herd-specific progress against the national UK industry benchmark.
