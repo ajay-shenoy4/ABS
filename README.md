@@ -29,15 +29,53 @@ The application flattens a 3-generation lineage into a single row-major format b
 * **Validated Exporting:** Integrated `downloadHandler` for generating cleaned CSV reports containing only the user’s currently selected filtered view.
 
 ---
-### 2. GeneAdvance Buckets (Herd Scoring Pipeline)
-A highly technical pipeline for dairy herd categorization based on production and conformation traits.
+### 2. GeneAdvance Buckets (Dairy Herd Genetic Scoring Pipeline)
+An end-to-end analytical pipeline designed for high-throughput scoring, categorization, and longitudinal tracking of dairy herd performance across global markets.
 
-Advanced Wrangling: Utilizes dplyr and purrr for functional programming across multi-source datasets (SQL & Starburst via RJDBC).
+#### Technical Architecture & ETL
+* **Hybrid Database Orchestration:** * Implements a centralized `scapi_setup()` function to manage simultaneous connections to **MS SQL Server** and **Starburst (Trino)** via `odbc` and `RJDBC`.
+    * Utilizes secure YAML-based credential injection for scalable multi-environment deployment.
+* **Automated Data Lifecycle:**
+    * **Dynamic Alignment:** The `clean_and_align_herd_lists` engine standardizes disparate CSV inputs, handles missing columns by comparing against reference dataframes, and sanitizes metadata (filtering "test" countries and invalid Farm IDs).
+    * **Longitudinal Batch Processing:** Maps processing functions across a time-series of datasets (from 2023 to 2025) to maintain consistent genetic classification over multi-year periods.
 
-Scoring Logic: Implements distance-to-bounding-box logic to assign animals to custom genetic "buckets."
+#### The "Genetic Bucketing" Engine
+The core of the pipeline is a classification system that maps herds into specific market-relevant indices (e.g., NM$like, TPIlike, HEALTH, PRODUCTION).
+* **3D State Space Scoring:** Scores every herd across three primary dimensions: **Production**, **Fitness**, and **Conformation**.
+* **Euclidean Distance Logic:** Features a specialized **Distance-to-Bounding-Box** algorithm. If a herd falls outside a strict rule-based category, the script calculates the Euclidean distance between the herd's coordinates and the nearest defined "Genetic Box" to ensure 100% classification coverage.
+* **Anomaly Detection:** Identifies "Unassigned" or "Multi-Bucket" rows to flag inconsistencies in farm reporting or extreme genetic outliers.
 
-Visual Analytics: Generates publication-quality ggplot2 visualizations, including faceted temporal trends and trait range distributions.
+#### Advanced Visualization & Analytics
+The pipeline integrates a dedicated suite of `ggplot2` plotting functions to transform high-dimensional data into publication-quality insights:
 
+* **Global Performance Trends:** Faceted line charts and stacked bar graphs showing how genetic proportions (by both **Herd Count** and **Herd Size**) shift over time across different countries.
+* **Trait-Specific Faceting:** Specialized trend plots for:
+    * **Production Traits:** Milk, Fat, Protein.
+    * **Health/Fitness:** Productive Life (PL), Livability, SCS, and AHI.
+    * **Conformation:** Udder Composite (UDC), Feet & Legs (FLC), and Body Weight (BWC).
+* **Trait Range Verification:** Automated visualization of "Bucket Rules" vs. "Actual Performance" to validate that classified herds align with their intended genetic targets.
+
+| Core Function | Responsibility |
+| :--- | :--- |
+| `scapi_setup` | Orchestrates DB connections and environment paths. |
+| `process_and_bucket_herds` | Primary scoring engine using 3D coordinate logic. |
+| `generate_and_save_summaries` | Batch processes longitudinal data into a standardized CSV library. |
+| `plot_health_trait_trends` | High-fidelity facet plotting of biological markers across global regions. |
+
+### I was able to present the findings in a presentation to several product line managers every sire summary. 
+
+* **Executive Summaries:** Automated generation of `combined_bucket_summary.csv`, which provides a high-level "pulse" of the global herd distribution without requiring deep-dives into raw SQL tables.
+* **Regional Performance Faceting:** Using `plot_production_trait_trends`, we provide PLMs with country-specific benchmarks (e.g., Brazil vs. USA), allowing them to identify underperforming regions or emerging genetic trends.
+* **Validation of Strategic Rules:** By visualizing `plot_trait_ranges`, we demonstrate to product managers that our classification logic ("Bucketing") aligns with real-world biological performance, building trust in the algorithm's accuracy.
+* **Trait Trend Facets:** A "health-check" on biological markers (Fertility, Udder Health, Longevity) to ensure that genetic progress is consistent with global sustainability and animal welfare goals.
+* **The "Market Shift" Story:** Line charts showing the year-over-year growth of specific buckets (like `HEALTH` or `NM$like`) to help PLMs pivot marketing and inventory strategies.
+
+### Impact on Product Line Management
+* **Resource Allocation:** Data identifies which genetic lines are most dominant in key markets, helping managers allocate laboratory and sire resources more efficiently.
+* **Standardization:** The pipeline provides a single "Source of Truth," ensuring that managers in different countries are looking at the same KPIs and audit results.
+* **Predictive Forecasting:** By tracking longitudinal trends from 2023–2025, we provide PLMs with a predictive view of where the market is heading by 2026.
+
+---
 ### 3. Multi-Standard Genomic Audits (CDCB, CI, AHDB)
 An automated reporting framework for international genomic and phenotypic auditing.
 
