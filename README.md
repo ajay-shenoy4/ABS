@@ -1,8 +1,8 @@
-ABS Global: Dairy Herd Genetics & Genomic Auditing
-Project Overview
+### ABS Global: Dairy Herd Genetics & Genomic Auditing
+## Project Overview
 This repository contains a suite of advanced R-based tools designed for the dairy industry. These applications automate the retrieval of pedigree data, calculate genomic performance scores, and perform large-scale audits (CDCB, CI, AHDB) to optimize herd genetics and reproductive efficiency.
 
-Core Applications
+## Core Applications
 1. GMS Pedigree Navigator (ui-GMS.R & server-GMS.R)
 A dynamic R Shiny application that serves as a portal into cattle lineage and reproductive health.
 
