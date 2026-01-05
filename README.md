@@ -7,7 +7,7 @@ This repository contains a suite of advanced R-based tools designed for the dair
 A full-stack **R Shiny** dashboard and data-processing engine designed to reconstruct multi-generational cattle pedigrees and track real-time reproductive physiology.
 
 #### Technical Architecture
-* **Multi-Tier Data Integration:** * Connects to **MS SQL Server** using `odbc` and `DBI` protocols with secure `YAML` configuration management.
+* **Multi-Tier Data Integration:** Connects to **MS SQL Server** using `odbc` and `DBI` protocols with secure `YAML` configuration management.
     * Implements a modular SQL architecture to query `farm_account_lookup`, `animal_data`, `calf_forecast`, and `reproduction_data` asynchronously.
 * **Pedigree Reconstruction Engine:** * The system utilizes specialized join logic (`CowtoMgs` → `GetMggs` → `GetGreatGrandSires`) to recursively traverse the maternal line.
     * Transforms flat relational data into a structured **Sire / Maternal Grand Sire (MGS) / Maternal Great Grand Sire (MGGS)** lineage view.
