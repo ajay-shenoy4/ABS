@@ -33,7 +33,7 @@ The application flattens a 3-generation lineage into a single row-major format b
 An end-to-end analytical pipeline designed for high-throughput scoring, categorization, and longitudinal tracking of dairy herd performance across global markets.
 
 #### Technical Architecture & ETL
-* **Hybrid Database Orchestration:** * Implements a centralized `scapi_setup()` function to manage simultaneous connections to **MS SQL Server** and **Starburst (Trino)** via `odbc` and `RJDBC`.
+* **Hybrid Database Orchestration:** Implements a centralized `scapi_setup()` function to manage simultaneous connections to **MS SQL Server** and **Starburst (Trino)** via `odbc` and `RJDBC`.
     * Utilizes secure YAML-based credential injection for scalable multi-environment deployment.
 * **Automated Data Lifecycle:**
     * **Dynamic Alignment:** The `clean_and_align_herd_lists` engine standardizes disparate CSV inputs, handles missing columns by comparing against reference dataframes, and sanitizes metadata (filtering "test" countries and invalid Farm IDs).
