@@ -40,3 +40,9 @@ Transformation: Alignment of disparate CSV data, genomic indicator calculation, 
 Visualization: Automated plot generation for udder health, fertility, and production trends.
 
 Reporting: Generation of reproducible audits for customer decision-making.
+
+Contact & Credits
+
+ABS Global 
+
+Ajay Shenoy 
